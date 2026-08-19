@@ -9,7 +9,9 @@ highest score wins. Scores are submitted through GitHub Issues (with a photo or
 screenshot as proof) and the leaderboard updates automatically via a GitHub Action.
 
 - Site language: Italian
-- Fonts: Press Start 2P (display), IBM Plex Mono (body), both self-hosted under `static/fonts/`
+- Fonts: Press Start 2P (display), VT323 (body), both self-hosted as WOFF2 under
+  `static/fonts/`; the CSS references them with relative paths (`../fonts/...`)
+  because the site runs under the `/salagiochi/` base path
 - No build-time external dependencies, no CDN
 
 ## Structure
@@ -107,8 +109,7 @@ parsed by `update_scores.py`.
 
 - Repo URL and issue URL: `params.repo` and `params.repo_issues` in `hugo.yaml`.
 - Score submission allowlist: `ALLOWED_AUTHORS` at the top of
-  `scripts/update_scores.py`. Currently only `aadm`; add Fabio's GitHub username
-  when you have it.
+  `scripts/update_scores.py`. Currently `aadm` and `febs`.
 
 ## Adding a game
 

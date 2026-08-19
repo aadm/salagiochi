@@ -30,6 +30,10 @@ updated automatically from GitHub Issues by `.github/workflows/score-update.yml`
   by `update_scores.py` (download via the workflow token, reduce, commit); only
   the reduced copy is stored in the repo.
 - Self-host all assets under `static/`; do not introduce CDN dependencies.
+- Fonts: display faces use `Press Start 2P`, body text uses `VT323`; both are
+  self-hosted as WOFF2 in `static/fonts/`. CSS references them with relative
+  paths (`../fonts/...`) because the site runs under the `/salagiochi/` base path
+  and leading-slash URLs would 404.
 - The score-update script is the source of truth for how issues map to data; keep
   `scripts/update_scores.py` and `data/scores.yml` in sync.
 - `ALLOWED_AUTHORS` in `scripts/update_scores.py` whitelists who may submit scores;
