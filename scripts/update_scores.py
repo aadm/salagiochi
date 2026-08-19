@@ -16,7 +16,8 @@ import yaml
 DATA_FILE = "data/scores.yml"
 
 # Only these GitHub users may submit scores.
-# TODO: add Fabio's GitHub username to this set.
+# GitHub usernames allowed to open score issues (not display names).
+# TODO: add the second player's GitHub username to this set.
 ALLOWED_AUTHORS = {"aadm"}
 
 
@@ -139,7 +140,7 @@ def main():
         if entry["player"] == player:
             entry["score"] = score
             entry["date"] = today
-            entry["issue"] = f"https://github.com/{os.environ.get('GITHUB_REPOSITORY', '')}/issues/{issue_number}"
+            entry["proof"] = f"https://github.com/{os.environ.get('GITHUB_REPOSITORY', '')}/issues/{issue_number}"
             updated = True
             break
     if not updated:
@@ -148,7 +149,7 @@ def main():
                 "player": player,
                 "score": score,
                 "date": today,
-                "issue": f"https://github.com/{os.environ.get('GITHUB_REPOSITORY', '')}/issues/{issue_number}",
+                "proof": f"https://github.com/{os.environ.get('GITHUB_REPOSITORY', '')}/issues/{issue_number}",
             }
         )
 

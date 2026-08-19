@@ -249,6 +249,21 @@ code {
   padding: 0 4px;
 }
 
+pre {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  padding: 1rem;
+  overflow-x: auto;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+pre code {
+  background: none;
+  border: 0;
+  padding: 0;
+}
+
 /* ---------- score tables ---------- */
 
 .game-card {

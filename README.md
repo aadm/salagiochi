@@ -123,9 +123,40 @@ Optionally run `hugo new content content/<slug>.md` if you want a dedicated page
 
 ## Manual score editing
 
-The script is the normal path, but you can edit `data/scores.yml` directly. Each
-entry needs `player`, `score` (integer), `date` (ISO), and `issue` (link to the
-proof photo).
+The issue workflow is the normal path, but you can edit `data/scores.yml`
+directly (even from the GitHub web UI). Each entry needs `player` (strmnk or
+anal), `score` (integer), `date` (ISO), and `proof` (a GitHub issue URL or a
+local photo path).
+
+### Storing proof photos
+
+Hugo copies `static/` files verbatim and does not resize anything. Save photos
+under `static/scores/<slug>/` (published at `/salagiochi/scores/<slug>/...`) and
+reference them with the path relative to the site root, **without** a leading
+slash:
+
+```yaml
+    entries:
+      - player: strmnk
+        score: 87400
+        date: 2026-07-18
+        proof: scores/mario-bros/mario-bros-strmnk-2026-07-18.jpg
+```
+
+Photo sources differ a lot in size: an iPhone photo is typically 4000x3000 px
+and several MB, an emulator screenshot (RetroArch) is 1920x1080 but a large PNG,
+while an image passed through WhatsApp arrives already compressed. Downscale to a
+max dimension of 1600 px and strip EXIF with the helper script:
+
+```sh
+python scripts/optimize_photo.py photo.jpg static/scores/mario-bros/mario-bros-strmnk-2026-07-18.jpg
+```
+
+Requires Pillow. If you prefer ImageMagick:
+
+```sh
+convert photo.jpg -resize 1600x1600\> -strip -quality 82 static/scores/mario-bros/mario-bros-strmnk-2026-07-18.jpg
+```
 
 ## Workflows
 

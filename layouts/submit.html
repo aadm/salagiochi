@@ -23,8 +23,9 @@
       <div class="form-field">
         <label for="player">Giocatore</label>
         <select id="player" name="player" required>
-          <option value="aadm">aadm</option>
-          <option value="fabio">fabio</option>
+          {{ range site.Params.players }}
+            <option value="{{ . }}">{{ . }}</option>
+          {{ end }}
         </select>
       </div>
 
@@ -45,6 +46,47 @@
       <li>Premi "Submit new issue".</li>
       <li>La classifica si aggiorna da sola in pochi minuti.</li>
     </ol>
+
+    <h2>Aggiungere un punteggio a mano</h2>
+    <p>Se preferisci, puoi saltare la issue e aggiornare direttamente la classifica.
+    Serve modificare un solo file: <code>data/scores.yml</code> nel repository GitHub
+    (anche dalla pagina web del repo, senza scaricare nulla).</p>
+
+    <ol>
+      <li><strong>Prepara la foto.</strong> Hugo copia i file così come sono e non
+        ridimensiona niente. Le foto hanno dimensioni molto diverse tra loro:
+        una foto dall'iPhone può essere 4000x3000 pixel e pesare megabyte, uno
+        screenshot di un emulatore (RetroArch) è tipicamente 1920x1080 ma in PNG
+        può pesare altrettanto, mentre una foto passata da WhatsApp arriva già
+        compressa e va bene quasi sempre. Per il sito bastano 1600 pixel sul lato
+        lungo e una qualità JPEG media (il file scende a poche centinaia di KB).</li>
+    </ol>
+
+    <pre><code>python scripts/optimize_photo.py foto.jpg static/scores/mario-bros/mario-bros-strmnk-2026-07-18.jpg</code></pre>
+
+    <p>Se non hai Pillow installato, va bene anche ImageMagick:</p>
+
+    <pre><code>convert foto.jpg -resize 1600x1600\&gt; -strip -quality 82 static/scores/mario-bros/mario-bros-strmnk-2026-07-18.jpg</code></pre>
+
+    <p>La foto va salvata in <code>static/scores/&lt;gioco&gt;/</code> e compare sul sito
+    all'indirizzo <code>/salagiochi/scores/&lt;gioco&gt;/...</code>. Se usi la pagina
+    web del repository (senza scaricare nulla), trascina la foto già ridotta nella
+    cartella <code>static/scores/&lt;gioco&gt;/</code>.</p>
+
+    <ol start="2">
+      <li><strong>Modifica <code>data/scores.yml</code></strong> e aggiungi una voce
+        alla sezione del gioco (il percorso foto va senza la slash iniziale):</li>
+    </ol>
+
+    <pre><code>    entries:
+      - player: strmnk
+        score: 87400
+        date: 2026-07-18
+        proof: scores/mario-bros/mario-bros-strmnk-2026-07-18.jpg</code></pre>
+
+    <p>In <code>proof</code> va il link alla prova: il percorso della foto locale
+    (senza la slash iniziale) oppure un URL di issue GitHub. Il nome del gioco va
+    indicato con lo stesso nome della sezione <code>games</code>.</p>
 
     <p>Il punteggio viene caricato così com'è: siamo grandi e ci fidiamo l'uno dell'altro.</p>
   </article>

@@ -20,7 +20,7 @@ body:
     id: player
     attributes:
       label: Giocatore
-      description: aadm oppure fabio
+      description: strmnk oppure anal
     validations:
       required: true
   - type: textarea

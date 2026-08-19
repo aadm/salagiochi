@@ -20,8 +20,12 @@ updated automatically from GitHub Issues by `.github/workflows/score-update.yml`
   English.
 - Leaderboard data lives only in `data/scores.yml`. The first `games` entry is the
   current game of the month; the rest are the archive.
-- Score entries need: `player` (aadm or fabio), `score` (integer), `date` (ISO),
-  `issue` (GitHub issue URL with the proof photo).
+- Score entries need: `player` (strmnk or anal), `score` (integer), `date` (ISO),
+  `proof` (GitHub issue URL with the photo, or a local path under `static/scores/`
+  written without a leading slash).
+- Proof photos go in `static/scores/<slug>/` and must be downscaled first
+  (`scripts/optimize_photo.py`, max ~1600px, JPEG ~82); Hugo copies static files
+  verbatim and does not resize them.
 - Self-host all assets under `static/`; do not introduce CDN dependencies.
 - The score-update script is the source of truth for how issues map to data; keep
   `scripts/update_scores.py` and `data/scores.yml` in sync.

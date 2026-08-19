@@ -37,7 +37,11 @@
             <td class="score">{{ lang.FormatNumberCustom 0 $e.score }}</td>
             <td class="date">{{ $e.date }}</td>
             <td class="proof">
-              <a href="{{ $e.issue }}" target="_blank" rel="noopener">foto</a>
+              {{ if hasPrefix $e.proof "http" }}
+                <a href="{{ $e.proof }}" target="_blank" rel="noopener">foto</a>
+              {{ else }}
+                <a href="{{ $e.proof | relURL }}" target="_blank" rel="noopener">foto</a>
+              {{ end }}
             </td>
           </tr>
         {{ end }}
