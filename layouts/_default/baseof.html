@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="{{ site.Language.Locale | default "it" }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ if .IsHome }}{{ site.Title }} — sala giochi tra amici{{ else }}{{ .Title }} — {{ site.Title }}{{ end }}</title>
+  <meta name="description" content="{{ site.Params.description }}">
+  <link rel="stylesheet" href="{{ "css/arcade.css" | relURL }}">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23ffd23f'/><text x='50' y='68' font-size='44' font-family='monospace' font-weight='bold' text-anchor='middle' fill='%230a0a0f'>40</text></svg>">
+</head>
+<body>
+  <header class="site-header">
+    <div class="marquee" aria-hidden="true">
+      <span>INSERT COIN &nbsp;&bull;&nbsp; INSERISCI MONETA &nbsp;&bull;&nbsp; 40 CREDITI AL MESE &nbsp;&bull;&nbsp; GAME OVER &nbsp;&bull;&nbsp; HIGH SCORE &nbsp;&bull;&nbsp; 1UP &nbsp;&bull;&nbsp; 2UP &nbsp;&bull;&nbsp; INSERT COIN &nbsp;&bull;&nbsp; INSERISCI MONETA &nbsp;&bull;&nbsp; 40 CREDITI AL MESE &nbsp;&bull;&nbsp; GAME OVER &nbsp;&bull;&nbsp; HIGH SCORE &nbsp;&bull;&nbsp; 1UP &nbsp;&bull;&nbsp; 2UP &nbsp;&bull;&nbsp; </span>
+    </div>
+    <div class="wrap">
+      <h1 class="site-title"><a href="{{ "/" | relURL }}">{{ site.Title | upper }}</a></h1>
+      <p class="tagline">{{ site.Params.description }}</p>
+      <nav class="site-nav">
+        {{ range site.Menus.main }}
+          <a href="{{ .URL | relURL }}">{{ .Name }}</a>
+        {{ end }}
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    {{ block "main" . }}{{ end }}
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <span class="insert-coin">INSERT COIN</span><br>
+      {{ site.Params.author | upper }} &mdash; dal campeggio alla sala giochi
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,112 @@
+# Quaranta Crediti
+
+A minimal retro arcade leaderboard for two friends. Hugo static site, hosted on GitHub Pages.
+
+## What it is
+
+Every month a classic arcade game is chosen, each player gets 40 credits, and the
+highest score wins. Scores are submitted through GitHub Issues (with a photo or
+screenshot as proof) and the leaderboard updates automatically via a GitHub Action.
+
+- Site language: Italian
+- Fonts: Press Start 2P (display), IBM Plex Mono (body), both self-hosted under `static/fonts/`
+- No build-time external dependencies, no CDN
+
+## Structure
+
+```
+salagiochi/
+├── data/scores.yml                 # leaderboard data (source of truth)
+├── content/
+│   ├── _index.md                   # home: intro, rules
+│   └── submit.md                   # score submission page (uses layouts/submit.html)
+├── layouts/
+│   ├── _default/baseof.html        # html shell, header marquee, footer
+│   ├── index.html                  # renders the leaderboards from data
+│   ├── submit.html                 # score submission form
+│   └── partials/game-card.html     # renders one game's score table
+├── static/
+│   ├── css/arcade.css              # retro CRT theme
+│   ├── js/submit.js                # builds the pre-filled GitHub issue URL
+│   └── fonts/                      # self-hosted woff2 fonts
+├── scripts/update_scores.py        # parses issues and updates data/scores.yml
+└── .github/
+    ├── ISSUE_TEMPLATE/score.yml    # manual score issue template
+    └── workflows/
+        ├── pages.yml               # builds and deploys the site to Pages
+        └── score-update.yml        # runs update_scores.py on new issues
+```
+
+## Local development
+
+```sh
+hugo server -D
+```
+
+Requires Hugo >= 0.162. The site builds with `hugo` into `public/`.
+
+## How score submission works
+
+1. A player fills the form on `/submit/`. The form opens a pre-filled GitHub issue
+   at `https://github.com/aadm/salagiochi/issues/new?title=...&body=...`.
+2. The player drags a photo or screenshot of the score into the issue body and
+   submits the issue. Title format: `[PUNTEGGIO] <GIOCO> - <GIOCATORE>: <PUNTEGGIO>`.
+3. The `score-update` workflow (triggered on `issues: opened` and `edited`) runs
+   `scripts/update_scores.py`, which parses the body, validates the author against
+   an allowlist, and upserts the entry into `data/scores.yml`.
+4. The commit pushes to `main`, which triggers the `pages` workflow and redeploys
+   the site. The leaderboard updates within a couple of minutes.
+
+### Score body format
+
+The form-generated issue uses bold labels:
+
+```markdown
+**Gioco:** Mario Bros
+**Punteggio:** 87400
+**Giocatore:** aadm
+**Nota:** ultimo giorno
+```
+
+Manual issues through the issue template produce `### Gioco` headings; both are
+parsed by `update_scores.py`.
+
+## Configuration
+
+- Repo URL and issue URL: `params.repo` and `params.repo_issues` in `hugo.yaml`.
+- Score submission allowlist: `ALLOWED_AUTHORS` at the top of
+  `scripts/update_scores.py`. Currently only `aadm`; add Fabio's GitHub username
+  when you have it.
+
+## Adding a game
+
+Add a block at the top of `data/scores.yml` (the first block is the current game
+of the month):
+
+```yaml
+- slug: pac-man
+  name: Pac-Man
+  platform: Arcade (Namco, 1980)
+  year: 2026
+  month: 9
+  credits: 40
+  entries: []
+```
+
+Optionally run `hugo new content content/<slug>.md` if you want a dedicated page.
+
+## Manual score editing
+
+The script is the normal path, but you can edit `data/scores.yml` directly. Each
+entry needs `player`, `score` (integer), `date` (ISO), and `issue` (link to the
+proof photo).
+
+## Workflows
+
+- `pages.yml`: Hugo build + GitHub Pages deploy via `actions/deploy-pages`. Requires
+  Pages source set to "GitHub Actions" in the repo settings.
+- `score-update.yml`: parse score issues and commit the updated `data/scores.yml`.
+
+## License
+
+CC-BY-NC-ND

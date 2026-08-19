@@ -1,0 +1,23 @@
+# Quaranta Crediti - punteggi
+#
+# Ordine dei giochi: il primo blocco e' il gioco del mese in corso.
+# Punteggi: per aggiungere una voce usare il form in /submit/ oppure
+# modificare questo file a mano. "issue" e' il numero della issue GitHub
+# con la foto come prova.
+
+games:
+  - slug: pooyan
+    name: Pooyan
+    platform: Arcade (Konami, 1982)
+    year: 2026
+    month: 8
+    credits: 40
+    entries: []
+
+  - slug: mario-bros
+    name: Mario Bros
+    platform: Arcade (Nintendo, 1983)
+    year: 2026
+    month: 7
+    credits: 40
+    entries: []

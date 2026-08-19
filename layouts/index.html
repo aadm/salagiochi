@@ -1,0 +1,20 @@
+{{ define "main" }}
+  <article>
+    <h1>LA SALA GIOCHI VIRTUALE</h1>
+    {{ .Content }}
+
+    {{ $games := hugo.Data.scores.games }}
+    {{ $current := index $games 0 }}
+    {{ $rest := after 1 $games }}
+
+    <h2>GIOCO DEL MESE</h2>
+    {{ partial "game-card.html" (dict "game" $current "current" true) }}
+
+    {{ if gt (len $rest) 0 }}
+      <h2>ARCHIVIO</h2>
+      {{ range $rest }}
+        {{ partial "game-card.html" (dict "game" . "current" false) }}
+      {{ end }}
+    {{ end }}
+  </article>
+{{ end }}

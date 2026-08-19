@@ -1,0 +1,49 @@
+{{ $game := .game }}
+{{ $current := .current }}
+{{ $months := dict
+  "1" "Gennaio" "2" "Febbraio" "3" "Marzo" "4" "Aprile"
+  "5" "Maggio" "6" "Giugno" "7" "Luglio" "8" "Agosto"
+  "9" "Settembre" "10" "Ottobre" "11" "Novembre" "12" "Dicembre" }}
+{{ $m := printf "%d" $game.month }}
+{{ $monthName := index $months $m }}
+
+<section class="game-card{{ if $current }} current{{ end }}">
+  <div class="game-head">
+    <h2 class="game-name{{ if $current }} current{{ end }}">{{ $game.name }}</h2>
+    <div class="game-meta">
+      {{ $monthName }} {{ $game.year }}
+      {{ if $current }}<span class="badge game-of-month">GIOCA ORA</span>{{ end }}
+      &mdash; {{ $game.credits }} crediti
+    </div>
+  </div>
+
+  {{ if gt (len $game.entries) 0 }}
+    {{ $sorted := sort $game.entries "score" "desc" }}
+    <table class="score-table">
+      <thead>
+        <tr>
+          <th class="rank">#</th>
+          <th>Giocatore</th>
+          <th class="score">Punteggio</th>
+          <th>Data</th>
+          <th>Prova</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{ range $i, $e := $sorted }}
+          <tr>
+            <td class="rank">{{ add $i 1 }}</td>
+            <td class="player{{ if eq $i 0 }} first{{ end }}">{{ $e.player }}</td>
+            <td class="score">{{ lang.FormatNumberCustom 0 $e.score }}</td>
+            <td class="date">{{ $e.date }}</td>
+            <td class="proof">
+              <a href="{{ $e.issue }}" target="_blank" rel="noopener">foto</a>
+            </td>
+          </tr>
+        {{ end }}
+      </tbody>
+    </table>
+  {{ else }}
+    <p class="empty">Nessun punteggio ancora. <a href="{{ "submit/" | relURL }}">Invia il tuo!</a></p>
+  {{ end }}
+</section>

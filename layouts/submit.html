@@ -1,0 +1,52 @@
+{{ define "main" }}
+  <article>
+    <h1>{{ .Title | upper }}</h1>
+
+    <p>Compila il modulo: si aprirà una issue sul repository GitHub con tutti i dati già scritti.
+    Trascina la foto dello schermo o lo screenshot nel corpo della issue e premi "Submit new issue".
+    Il punteggio apparirà in classifica in pochi minuti, automaticamente.</p>
+
+    <form class="score-form" id="score-form" action="#" data-repo="{{ site.Params.repo }}">
+      <div class="form-field">
+        <label for="game">Gioco</label>
+        <select id="game" name="game" required>
+          {{ partial "games-options.html" . }}
+        </select>
+      </div>
+
+      <div class="form-field">
+        <label for="score">Punteggio</label>
+        <input type="number" id="score" name="score" min="0" step="1" placeholder="es. 120000" required>
+        <p class="form-hint">Solo numeri, senza punti o spazi.</p>
+      </div>
+
+      <div class="form-field">
+        <label for="player">Giocatore</label>
+        <select id="player" name="player" required>
+          <option value="aadm">aadm</option>
+          <option value="fabio">fabio</option>
+        </select>
+      </div>
+
+      <div class="form-field">
+        <label for="note">Nota (opzionale)</label>
+        <input type="text" id="note" name="note" placeholder="es. record personale, ultimo giorno del mese...">
+      </div>
+
+      <button type="submit" class="btn">APRI ISSUE</button>
+      <a class="btn secondary" href="{{ site.Params.repo_issues }}" target="_blank" rel="noopener">CREA ISSUE A MANO</a>
+    </form>
+
+    <h2>Come funziona</h2>
+    <ol>
+      <li>Compila il modulo qui sopra.</li>
+      <li>Si apre una nuova issue su GitHub con il punteggio già compilato.</li>
+      <li>Trascina la foto o lo screenshot nel campo di testo della issue.</li>
+      <li>Premi "Submit new issue".</li>
+      <li>La classifica si aggiorna da sola in pochi minuti.</li>
+    </ol>
+
+    <p>Il punteggio viene caricato così com'è: siamo grandi e ci fidiamo l'uno dell'altro.</p>
+  </article>
+  <script src="{{ "js/submit.js" | relURL }}"></script>
+{{ end }}

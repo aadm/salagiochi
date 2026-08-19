@@ -1,0 +1,32 @@
+baseURL: https://aadm.github.io/salagiochi/
+locale: it-it
+defaultContentLanguage: it
+title: Quaranta Crediti
+
+disableKinds:
+  - RSS
+  - taxonomy
+  - term
+
+# not a blog: no dates in permalinks, no pagination
+paginate: false
+
+params:
+  description: "Due amici, quaranta crediti al mese, un solo scopo: il miglior punteggio."
+  author: "aadm & fabio"
+  repo: aadm/salagiochi
+  repo_issues: https://github.com/aadm/salagiochi/issues/new
+  players:
+    - aadm
+    - fabio
+
+menus:
+  main:
+    - identifier: home
+      name: HOME
+      url: /
+      weight: 10
+    - identifier: submit
+      name: INVIA SCORE
+      url: /submit/
+      weight: 20
