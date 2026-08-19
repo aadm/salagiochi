@@ -497,6 +497,42 @@ form.score-form {
   margin-bottom: 0.4rem;
 }
 
+/* ---------- lightbox ---------- */
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(5, 5, 8, 0.92);
+  cursor: zoom-out;
+}
+
+.lightbox.open {
+  display: flex;
+}
+
+.lightbox img {
+  max-width: 90vw;
+  max-height: 90vh;
+  border: 3px double var(--amber);
+  box-shadow: 0 0 60px rgba(0, 0, 0, 0.9);
+}
+
+.lightbox::after {
+  content: 'PREMI ESC PER CHIUDERE';
+  position: absolute;
+  bottom: 1.2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-display);
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: var(--cyan);
+}
+
 /* ---------- misc ---------- */
 
 ::selection {
