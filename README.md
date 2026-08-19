@@ -45,6 +45,32 @@ hugo server -D
 
 Requires Hugo >= 0.162. The site builds with `hugo` into `public/`.
 
+## Deployment
+
+The site is published to GitHub Pages at
+`https://aadm.github.io/salagiochi/`. Set it up from a fresh clone:
+
+1. Install and authenticate the GitHub CLI (`gh auth login`).
+2. Create the remote repo and push the current branch:
+
+   ```sh
+   gh repo create aadm/salagiochi --public --source=. --push
+   ```
+
+3. Enable GitHub Pages with the "GitHub Actions" source (the `pages` workflow
+   deploys automatically on every push):
+
+   ```sh
+   gh api -X POST repos/aadm/salagiochi/pages \
+     -f "build_type=workflow" --silent
+   ```
+
+   Alternatively, use the web UI: repo Settings -> Pages -> Source ->
+   "GitHub Actions".
+
+After a push, `pages.yml` builds the site and deploys it. The first deployment
+takes a minute or two.
+
 ## How score submission works
 
 1. A player fills the form on `/submit/`. The form opens a pre-filled GitHub issue
