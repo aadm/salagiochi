@@ -1,0 +1,31 @@
+<form class="score-form" id="score-form" action="#" data-repo="{{ site.Params.repo }}">
+  <div class="form-field">
+    <label for="game">Gioco</label>
+    <select id="game" name="game" required>
+      {{ partial "games-options.html" . }}
+    </select>
+  </div>
+
+  <div class="form-field">
+    <label for="score">Punteggio</label>
+    <input type="number" id="score" name="score" min="0" step="1" placeholder="es. 120000" required>
+    <p class="form-hint">Solo numeri, senza punti o spazi.</p>
+  </div>
+
+  <div class="form-field">
+    <label for="player">Giocatore</label>
+    <select id="player" name="player" required>
+      {{ range site.Params.players }}
+        <option value="{{ . }}">{{ . }}</option>
+      {{ end }}
+    </select>
+  </div>
+
+  <div class="form-field">
+    <label for="note">Nota (opzionale)</label>
+    <input type="text" id="note" name="note" placeholder="es. record personale, ultimo giorno del mese...">
+  </div>
+
+  <button type="submit" class="btn">APRI ISSUE</button>
+  <a class="btn secondary" href="{{ site.Params.repo_issues }}" target="_blank" rel="noopener">CREA ISSUE A MANO</a>
+</form>
