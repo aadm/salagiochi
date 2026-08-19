@@ -12,7 +12,7 @@ disableKinds:
 paginate: false
 
 params:
-  description: "Due amici, quaranta crediti al mese, un solo scopo: il miglior punteggio."
+  description: "one game per month, 40 credits max, highest score wins"
   author: "strmnk & anal"
   repo: aadm/salagiochi
   repo_issues: https://github.com/aadm/salagiochi/issues/new

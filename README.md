@@ -79,9 +79,15 @@ takes a minute or two.
    submits the issue. Title format: `[PUNTEGGIO] <GIOCO> - <GIOCATORE>: <PUNTEGGIO>`.
 3. The `score-update` workflow (triggered on `issues: opened` and `edited`) runs
    `scripts/update_scores.py`, which parses the body, validates the author against
-   an allowlist, and upserts the entry into `data/scores.yml`.
+   an allowlist, downloads the attached photo, reduces it (max 1600px, JPEG ~82),
+   commits it to `static/scores/<slug>/`, and upserts the entry into
+   `data/scores.yml` with `proof` pointing at the local image.
 4. The commit pushes to `main`, which triggers the `pages` workflow and redeploys
    the site. The leaderboard updates within a couple of minutes.
+
+If the issue body has no photo, or the download fails, `proof` falls back to the
+issue URL. Issue attachments are hosted on GitHub's CDN and never count against
+the repository size; only the reduced local copy is committed.
 
 ### Score body format
 
@@ -90,7 +96,7 @@ The form-generated issue uses bold labels:
 ```markdown
 **Gioco:** Mario Bros
 **Punteggio:** 87400
-**Giocatore:** aadm
+**Giocatore:** strmnk
 **Nota:** ultimo giorno
 ```
 

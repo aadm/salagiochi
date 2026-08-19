@@ -26,8 +26,8 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Install PyYAML
-        run: pip install pyyaml
+      - name: Install dependencies
+        run: pip install pyyaml pillow
 
       - name: Update scores
         run: python scripts/update_scores.py

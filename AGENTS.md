@@ -25,7 +25,9 @@ updated automatically from GitHub Issues by `.github/workflows/score-update.yml`
   written without a leading slash).
 - Proof photos go in `static/scores/<slug>/` and must be downscaled first
   (`scripts/optimize_photo.py`, max ~1600px, JPEG ~82); Hugo copies static files
-  verbatim and does not resize them.
+  verbatim and does not resize them. Issue submissions are reduced automatically
+  by `update_scores.py` (download via the workflow token, reduce, commit); only
+  the reduced copy is stored in the repo.
 - Self-host all assets under `static/`; do not introduce CDN dependencies.
 - The score-update script is the source of truth for how issues map to data; keep
   `scripts/update_scores.py` and `data/scores.yml` in sync.

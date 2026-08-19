@@ -8,12 +8,14 @@ Run by .github/workflows/score-update.yml with env vars:
 
 import os
 import re
+import subprocess
 import sys
 from datetime import date
 
 import yaml
 
 DATA_FILE = "data/scores.yml"
+PHOTO_ROOT = "static/scores"
 
 # Only these GitHub users may submit scores.
 # GitHub usernames allowed to open score issues (not display names).
@@ -23,7 +25,6 @@ ALLOWED_AUTHORS = {"aadm"}
 
 def issue_comment(issue_number, body):
     import shutil
-    import subprocess
 
     if shutil.which("gh") is None:
         print(f"gh not available; would comment on #{issue_number}: {body}")
@@ -56,6 +57,49 @@ def extract_score(raw):
     return int(digits)
 
 
+def extract_image_url(body):
+    m = re.search(r"!\[[^\]]*\]\(([^)]+)\)", body or "")
+    return m.group(1).strip() if m else None
+
+
+def download_image(url, token, dest):
+    """Download url to dest, handling GitHub's auth-gated attachment redirect.
+
+    Attachments uploaded to issues live at github.com/user-attachments/assets/
+    and 302 to a signed CDN URL only when the request carries a token; the token
+    must NOT be forwarded to the CDN host. user-images.githubusercontent.com
+    URLs are public and fetched directly.
+    """
+    if "user-attachments" in url:
+        headers = subprocess.run(
+            ["curl", "-s", "-D", "-", "-o", "/dev/null", "-H", f"Authorization: Bearer {token}", url],
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+        location = None
+        for line in headers.stdout.splitlines():
+            if line.lower().startswith("location:"):
+                location = line.split(":", 1)[1].strip()
+                break
+        if location:
+            subprocess.run(["curl", "-sfL", "-o", dest, location], check=True)
+        else:
+            subprocess.run(
+                ["curl", "-sfL", "-o", dest, "-H", f"Authorization: Bearer {token}", url],
+                check=True,
+            )
+    else:
+        subprocess.run(["curl", "-sfL", "-o", dest, url], check=True)
+
+
+def reduce_image(dest):
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    from optimize_photo import reduce_image as _reduce
+
+    _reduce(dest, dest)
+
+
 def load_games():
     with open(DATA_FILE, encoding="utf-8") as fh:
         return yaml.safe_load(fh) or {"games": []}
@@ -78,6 +122,7 @@ def main():
     issue_title = os.environ.get("ISSUE_TITLE", "")
     issue_body = os.environ.get("ISSUE_BODY", "")
     issue_author = os.environ.get("ISSUE_AUTHOR", "")
+    token = os.environ.get("GITHUB_TOKEN", "")
 
     if not issue_number:
         print("No ISSUE_NUMBER provided; nothing to do.")
@@ -134,13 +179,30 @@ def main():
         return 1
 
     today = date.today().isoformat()
+    slug = target.get("slug") or re.sub(r"[^a-z0-9]+", "-", target["name"].lower()).strip("-")
+    issue_url = f"https://github.com/{os.environ.get('GITHUB_REPOSITORY', '')}/issues/{issue_number}"
+
+    proof = issue_url
+    image_url = extract_image_url(issue_body)
+    if image_url:
+        dest = os.path.join(PHOTO_ROOT, slug, f"{slug}-{player}-{today}.jpg")
+        os.makedirs(os.path.dirname(dest), exist_ok=True)
+        try:
+            download_image(image_url, token, dest)
+            reduce_image(dest)
+            proof = os.path.join("scores", slug, f"{slug}-{player}-{today}.jpg")
+            print(f"stored reduced proof: {proof}")
+        except Exception as exc:
+            print(f"photo download/reduce failed, keeping issue link: {exc}")
+            proof = issue_url
+
     entries = target.setdefault("entries", [])
     updated = False
     for entry in entries:
         if entry["player"] == player:
             entry["score"] = score
             entry["date"] = today
-            entry["proof"] = f"https://github.com/{os.environ.get('GITHUB_REPOSITORY', '')}/issues/{issue_number}"
+            entry["proof"] = proof
             updated = True
             break
     if not updated:
@@ -149,21 +211,19 @@ def main():
                 "player": player,
                 "score": score,
                 "date": today,
-                "proof": f"https://github.com/{os.environ.get('GITHUB_REPOSITORY', '')}/issues/{issue_number}",
+                "proof": proof,
             }
         )
 
     save_games(data)
 
     try:
-        import subprocess
-
         subprocess.run(["git", "config", "user.name", "scorebot"], check=True)
         subprocess.run(
             ["git", "config", "user.email", "scorebot@users.noreply.github.com"],
             check=True,
         )
-        subprocess.run(["git", "add", DATA_FILE], check=True)
+        subprocess.run(["git", "add", DATA_FILE, PHOTO_ROOT], check=True)
         subprocess.run(
             [
                 "git",
@@ -179,7 +239,7 @@ def main():
                 "remote",
                 "set-url",
                 "origin",
-                f"https://x-access-token:{os.environ['GITHUB_TOKEN']}@github.com/{os.environ['GITHUB_REPOSITORY']}.git",
+                f"https://x-access-token:{token}@github.com/{os.environ['GITHUB_REPOSITORY']}.git",
             ],
             check=True,
         )

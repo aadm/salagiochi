@@ -15,6 +15,20 @@ import os
 from PIL import Image, ImageOps
 
 
+def reduce_image(src, dest, max_size=1600, quality=82):
+    """Resize src (path or file-like) to max_size and write dest as JPEG."""
+    img = Image.open(src)
+    img = ImageOps.exif_transpose(img)
+    img = img.convert("RGB")
+
+    if max(img.size) > max_size:
+        img.thumbnail((max_size, max_size), Image.LANCZOS)
+
+    os.makedirs(os.path.dirname(dest), exist_ok=True)
+    img.save(dest, "JPEG", quality=quality, optimize=True, progressive=True)
+    return img.size
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("input", help="source photo or screenshot")
@@ -23,20 +37,9 @@ def main():
     parser.add_argument("--quality", type=int, default=82, help="JPEG quality (default 82)")
     args = parser.parse_args()
 
-    out_dir = os.path.dirname(args.output)
-    os.makedirs(out_dir, exist_ok=True)
-
-    img = Image.open(args.input)
-    img = ImageOps.exif_transpose(img)
-    img = img.convert("RGB")
-
-    if max(img.size) > args.max_size:
-        img.thumbnail((args.max_size, args.max_size), Image.LANCZOS)
-
-    img.save(args.output, "JPEG", quality=args.quality, optimize=True, progressive=True)
-
+    size = reduce_image(args.input, args.output, args.max_size, args.quality)
     size_kb = os.path.getsize(args.output) / 1024
-    print(f"OK {args.output} ({img.size[0]}x{img.size[1]}, {size_kb:.0f} KB)")
+    print(f"OK {args.output} ({size[0]}x{size[1]}, {size_kb:.0f} KB)")
 
 
 if __name__ == "__main__":
