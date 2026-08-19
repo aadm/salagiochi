@@ -19,8 +19,7 @@ PHOTO_ROOT = "static/proof"
 
 # Only these GitHub users may submit scores.
 # GitHub usernames allowed to open score issues (not display names).
-# TODO: add the second player's GitHub username to this set.
-ALLOWED_AUTHORS = {"aadm"}
+ALLOWED_AUTHORS = {"aadm", "febs"}
 
 
 def issue_comment(issue_number, body):
