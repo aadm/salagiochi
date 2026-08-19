@@ -21,9 +21,9 @@ updated automatically from GitHub Issues by `.github/workflows/score-update.yml`
 - Leaderboard data lives only in `data/scores.yml`. The first `games` entry is the
   current game of the month; the rest are the archive.
 - Score entries need: `player` (strmnk or anal), `score` (integer), `date` (ISO),
-  `proof` (GitHub issue URL with the photo, or a local path under `static/scores/`
-  written without a leading slash).
-- Proof photos go in `static/scores/<slug>/` and must be downscaled first
+  `proof` (GitHub issue URL with the photo, or a local path under `static/proof/`
+  written without a leading slash, e.g. `proof/pooyan-strmnk-2026-08-17.jpg`).
+- Proof photos go in `static/proof/` and must be downscaled first
   (`scripts/optimize_photo.py`, max ~1600px, JPEG ~82); Hugo copies static files
   verbatim and does not resize them. Issue submissions are reduced automatically
   by `update_scores.py` (download via the workflow token, reduce, commit); only

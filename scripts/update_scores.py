@@ -15,7 +15,7 @@ from datetime import date
 import yaml
 
 DATA_FILE = "data/scores.yml"
-PHOTO_ROOT = "static/scores"
+PHOTO_ROOT = "static/proof"
 
 # Only these GitHub users may submit scores.
 # GitHub usernames allowed to open score issues (not display names).
@@ -185,12 +185,12 @@ def main():
     proof = issue_url
     image_url = extract_image_url(issue_body)
     if image_url:
-        dest = os.path.join(PHOTO_ROOT, slug, f"{slug}-{player}-{today}.jpg")
-        os.makedirs(os.path.dirname(dest), exist_ok=True)
+        dest = os.path.join(PHOTO_ROOT, f"{slug}-{player}-{today}.jpg")
+        os.makedirs(PHOTO_ROOT, exist_ok=True)
         try:
             download_image(image_url, token, dest)
             reduce_image(dest)
-            proof = os.path.join("scores", slug, f"{slug}-{player}-{today}.jpg")
+            proof = os.path.join("proof", f"{slug}-{player}-{today}.jpg")
             print(f"stored reduced proof: {proof}")
         except Exception as exc:
             print(f"photo download/reduce failed, keeping issue link: {exc}")

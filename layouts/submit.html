@@ -4,7 +4,7 @@
 
     <p>Compila il modulo: si aprirà una issue sul repository GitHub con tutti i dati già scritti.
     Trascina la foto dello schermo o lo screenshot nel corpo della issue e premi "Submit new issue".
-    Il punteggio apparirà in classifica in pochi minuti, automaticamente.</p>
+    </p>
 
     <form class="score-form" id="score-form" action="#" data-repo="{{ site.Params.repo }}">
       <div class="form-field">
@@ -66,16 +66,16 @@
         lungo e una qualità JPEG media (il file scende a poche centinaia di KB).</li>
     </ol>
 
-    <pre><code>python scripts/optimize_photo.py foto.jpg static/scores/mario-bros/mario-bros-strmnk-2026-07-18.jpg</code></pre>
+    <pre><code>python scripts/optimize_photo.py foto.jpg static/proof/mariobros-strmnk-2026-07-18.jpg</code></pre>
 
     <p>Se non hai Pillow installato, va bene anche ImageMagick:</p>
 
-    <pre><code>convert foto.jpg -resize 1600x1600\&gt; -strip -quality 82 static/scores/mario-bros/mario-bros-strmnk-2026-07-18.jpg</code></pre>
+    <pre><code>convert foto.jpg -resize 1600x1600\&gt; -strip -quality 82 static/proof/mariobros-strmnk-2026-07-18.jpg</code></pre>
 
-    <p>La foto va salvata in <code>static/scores/&lt;gioco&gt;/</code> e compare sul sito
-    all'indirizzo <code>/salagiochi/scores/&lt;gioco&gt;/...</code>. Se usi la pagina
+    <p>La foto va salvata in <code>static/proof/</code> e compare sul sito
+    all'indirizzo <code>/salagiochi/proof/...</code>. Se usi la pagina
     web del repository (senza scaricare nulla), trascina la foto già ridotta nella
-    cartella <code>static/scores/&lt;gioco&gt;/</code>.</p>
+    cartella <code>static/proof/</code>.</p>
 
     <ol start="2">
       <li><strong>Modifica <code>data/scores.yml</code></strong> e aggiungi una voce
@@ -86,7 +86,7 @@
       - player: strmnk
         score: 87400
         date: 2026-07-18
-        proof: scores/mario-bros/mario-bros-strmnk-2026-07-18.jpg</code></pre>
+        proof: proof/mariobros-strmnk-2026-07-18.jpg</code></pre>
 
     <p>In <code>proof</code> va il link alla prova: il percorso della foto locale
     (senza la slash iniziale) oppure un URL di issue GitHub. Il nome del gioco va

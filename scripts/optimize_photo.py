@@ -6,8 +6,8 @@ committed or the repo and the site balloon in size. This script resizes to a
 max dimension, strips EXIF metadata, and re-encodes as JPEG.
 
 Usage:
-  python scripts/optimize_photo.py INPUT.jpg static/scores/<slug>/<slug>-<player>-<date>.jpg
-  python scripts/optimize_photo.py INPUT.png static/scores/<slug>/<slug>-<player>-<date>.jpg --max-size 1600 --quality 82
+  python scripts/optimize_photo.py INPUT.jpg static/proof/<slug>-<player>-<date>.jpg
+  python scripts/optimize_photo.py INPUT.png static/proof/<slug>-<player>-<date>.jpg --max-size 1600 --quality 82
 """
 
 import argparse
@@ -32,7 +32,7 @@ def reduce_image(src, dest, max_size=1600, quality=82):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("input", help="source photo or screenshot")
-    parser.add_argument("output", help="destination path under static/scores/")
+    parser.add_argument("output", help="destination path under static/proof/")
     parser.add_argument("--max-size", type=int, default=1600, help="max width/height in px (default 1600)")
     parser.add_argument("--quality", type=int, default=82, help="JPEG quality (default 82)")
     args = parser.parse_args()

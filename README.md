@@ -80,7 +80,7 @@ takes a minute or two.
 3. The `score-update` workflow (triggered on `issues: opened` and `edited`) runs
    `scripts/update_scores.py`, which parses the body, validates the author against
    an allowlist, downloads the attached photo, reduces it (max 1600px, JPEG ~82),
-   commits it to `static/scores/<slug>/`, and upserts the entry into
+   commits it to `static/proof/`, and upserts the entry into
    `data/scores.yml` with `proof` pointing at the local image.
 4. The commit pushes to `main`, which triggers the `pages` workflow and redeploys
    the site. The leaderboard updates within a couple of minutes.
@@ -137,16 +137,15 @@ local photo path).
 ### Storing proof photos
 
 Hugo copies `static/` files verbatim and does not resize anything. Save photos
-under `static/scores/<slug>/` (published at `/salagiochi/scores/<slug>/...`) and
-reference them with the path relative to the site root, **without** a leading
-slash:
+under `static/proof/` (published at `/salagiochi/proof/...`) and reference them
+with the path relative to the site root, **without** a leading slash:
 
 ```yaml
     entries:
       - player: strmnk
         score: 87400
         date: 2026-07-18
-        proof: scores/mario-bros/mario-bros-strmnk-2026-07-18.jpg
+        proof: proof/mariobros-strmnk-2026-07-18.jpg
 ```
 
 Photo sources differ a lot in size: an iPhone photo is typically 4000x3000 px
@@ -155,13 +154,13 @@ while an image passed through WhatsApp arrives already compressed. Downscale to 
 max dimension of 1600 px and strip EXIF with the helper script:
 
 ```sh
-python scripts/optimize_photo.py photo.jpg static/scores/mario-bros/mario-bros-strmnk-2026-07-18.jpg
+python3 scripts/optimize_photo.py photo.jpg static/proof/mariobros-strmnk-2026-07-18.jpg
 ```
 
 Requires Pillow. If you prefer ImageMagick:
 
 ```sh
-convert photo.jpg -resize 1600x1600\> -strip -quality 82 static/scores/mario-bros/mario-bros-strmnk-2026-07-18.jpg
+convert photo.jpg -resize 1600x1600\> -strip -quality 82 static/proof/mariobros-strmnk-2026-07-18.jpg
 ```
 
 ## Workflows
