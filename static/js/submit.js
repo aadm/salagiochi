@@ -36,9 +36,6 @@
     if (note) {
       body.push('**Nota:** ' + note);
     }
-    body.push('');
-    body.push('Trascina qui la foto o lo screenshot come prova:');
-    body.push('');
 
     var url = 'https://github.com/' + repo + '/issues/new?title='
       + encodeURIComponent(title) + '&body=' + encodeURIComponent(body.join('\n'));
