@@ -57,8 +57,16 @@ def extract_score(raw):
 
 
 def extract_image_url(body):
-    m = re.search(r"!\[[^\]]*\]\(([^)]+)\)", body or "")
-    return m.group(1).strip() if m else None
+    body = body or ""
+    # markdown: ![alt](url)
+    m = re.search(r"!\[[^\]]*\]\(([^)]+)\)", body)
+    if m:
+        return m.group(1).strip()
+    # HTML: <img src="url" ...>
+    m = re.search(r'<img[^>]+src="([^"]+)"', body)
+    if m:
+        return m.group(1).strip()
+    return None
 
 
 def download_image(url, token, dest):

@@ -40,6 +40,6 @@
     var url = 'https://github.com/' + repo + '/issues/new?title='
       + encodeURIComponent(title) + '&body=' + encodeURIComponent(body.join('\n'));
 
-    window.open(url, '_blank');
+    window.location.href = url;
   });
 })();

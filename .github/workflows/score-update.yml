@@ -8,6 +8,7 @@ on:
 permissions:
   contents: write
   issues: write
+  actions: write
 
 concurrency:
   group: score-update
@@ -38,3 +39,11 @@ jobs:
           ISSUE_AUTHOR: ${{ github.event.issue.user.login }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
+
+      - name: Trigger site deploy
+        if: success()
+        run: |
+          gh api -X POST repos/${{ github.repository }}/actions/workflows/pages.yml/dispatches \
+            -f ref=main
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
