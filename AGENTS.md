@@ -18,8 +18,8 @@ updated automatically from GitHub Issues by `.github/workflows/score-update.yml`
 
 - Site-facing text must be in Italian. Code, commit messages, and docs are in
   English.
-- Leaderboard data lives only in `data/scores.yml`. The first `games` entry is the
-  current game of the month; the rest are the archive.
+- Leaderboard data lives only in `data/scores.yml`. Games with `active: true` are
+  shown under "GIOCHI ATTIVI"; the rest are under "ARCHIVIO".
 - Score entries need: `player` (strmnk or anal), `score` (integer), `date` (ISO),
   `proof` (GitHub issue URL, or a local path under `static/proof/` written without
   a leading slash, e.g. `proof/pooyan-strmnk-2026-08-17.jpg`). The photo is

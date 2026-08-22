@@ -1,7 +1,8 @@
 ## REGOLAMENTO
 
-- Ogni mese scegliamo un videogioco classico (arcade o console).
-- 40 crediti a testa per tutto il mese.
+- Scegliamo un videogioco classico (arcade o console).
+- 40 crediti a testa per gioco.
+- La partita finisce quando finiscono i crediti o quando decidiamo di cambiare.
 - La foto o lo screenshot è facoltativa.
 - I punteggi si inviano dalla pagina "Invia Score" e compaiono in classifica in automatico.
-- A fine mese vince chi ha il punteggio più alto.
+- Quando un gioco è finito, ne scegliamo un altro.

@@ -267,7 +267,7 @@ pre code {
   padding: 1rem 1rem 0.4rem;
 }
 
-.game-card.current {
+.game-card.active {
   border-color: var(--green);
   box-shadow: 0 0 22px rgba(124, 255, 79, 0.15);
 }
@@ -289,10 +289,13 @@ pre code {
   color: var(--green);
 }
 
-.game-name.current::after {
-  content: ' \25cf';
-  color: var(--amber);
-  animation: blink 1.4s steps(2, start) infinite;
+.game-name a {
+  color: inherit;
+  border: 0;
+}
+
+.game-name a:hover {
+  color: var(--cyan);
 }
 
 .game-meta {
@@ -371,8 +374,8 @@ pre code {
   border: 1px solid currentColor;
 }
 
-.badge.game-of-month {
-  color: var(--amber);
+.badge.active {
+  color: var(--green);
 }
 
 /* ---------- buttons / forms ---------- */

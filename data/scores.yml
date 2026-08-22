@@ -2,8 +2,8 @@ games:
 - slug: pooyan
   name: Pooyan
   platform: Arcade (Konami, 1982)
-  year: 2026
-  month: 8
+  url: https://en.wikipedia.org/wiki/Pooyan
+  active: true
   credits: 40
   entries:
   - player: strmnk
@@ -14,11 +14,18 @@ games:
     score: 121200
     date: '2026-08-21'
     proof: proof/pooyan-anal-2026-08-21.jpg
+- slug: moon-patrol
+  name: Moon Patrol
+  platform: Arcade (Williams/Irem, 1982)
+  url: https://en.wikipedia.org/wiki/Moon_Patrol
+  active: true
+  credits: 40
+  entries: []
 - slug: mario-bros
   name: Mario Bros
   platform: Arcade (Nintendo, 1983)
-  year: 2026
-  month: 7
+  url: https://en.wikipedia.org/wiki/Mario_Bros.
+  active: false
   credits: 40
   entries:
   - player: strmnk

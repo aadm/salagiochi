@@ -4,9 +4,9 @@ A minimal retro arcade leaderboard for two friends. Hugo static site, hosted on 
 
 ## What it is
 
-Every month a classic arcade game is chosen, each player gets 40 credits, and the
-highest score wins. Scores are submitted through GitHub Issues (with a photo or
-screenshot as proof) and the leaderboard updates automatically via a GitHub Action.
+Classic arcade games, 40 credits each. Highest score wins. Scores are submitted
+through GitHub Issues (with a photo or screenshot as proof) and the leaderboard
+updates automatically via a GitHub Action.
 
 - Site language: Italian
 - Fonts: Press Start 2P (display), VT323 (body), both self-hosted as WOFF2 under
@@ -113,20 +113,19 @@ parsed by `update_scores.py`.
 
 ## Adding a game
 
-Add a block at the top of `data/scores.yml` (the first block is the current game
-of the month):
+Add a block to `data/scores.yml` with `active: true`:
 
 ```yaml
 - slug: pac-man
   name: Pac-Man
   platform: Arcade (Namco, 1980)
-  year: 2026
-  month: 9
+  url: https://en.wikipedia.org/wiki/Pac-Man
+  active: true
   credits: 40
   entries: []
 ```
 
-Optionally run `hugo new content content/<slug>.md` if you want a dedicated page.
+Set `active: false` when the game is finished.
 
 ## Manual score editing
 

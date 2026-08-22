@@ -1,18 +1,18 @@
 {{ $game := .game }}
-{{ $current := .current }}
-{{ $months := dict
-  "1" "Gennaio" "2" "Febbraio" "3" "Marzo" "4" "Aprile"
-  "5" "Maggio" "6" "Giugno" "7" "Luglio" "8" "Agosto"
-  "9" "Settembre" "10" "Ottobre" "11" "Novembre" "12" "Dicembre" }}
-{{ $m := printf "%d" $game.month }}
-{{ $monthName := index $months $m }}
+{{ $active := .active }}
 
-<section class="game-card{{ if $current }} current{{ end }}">
+<section class="game-card{{ if $active }} active{{ end }}">
   <div class="game-head">
-    <h2 class="game-name{{ if $current }} current{{ end }}">{{ $game.name }}</h2>
+    <h2 class="game-name{{ if $active }} active{{ end }}">
+      {{- if $game.url -}}
+        <a href="{{ $game.url }}" target="_blank" rel="noopener">{{ $game.name }}</a>
+      {{- else -}}
+        {{ $game.name }}
+      {{- end -}}
+    </h2>
     <div class="game-meta">
-      {{ $monthName }} {{ $game.year }}
-      {{ if $current }}<span class="badge game-of-month">GIOCA ORA</span>{{ end }}
+      {{ $game.platform }}
+      {{ if $active }}<span class="badge active">ATTIVO</span>{{ end }}
     </div>
   </div>
 
@@ -32,7 +32,7 @@
         {{ range $i, $e := $sorted }}
           <tr>
             <td class="rank">{{ add $i 1 }}</td>
-            <td class="player{{ if eq $i 0 }} first{{ end }}">{{ $e.player }}</td>
+            <td class="player">{{ $e.player }}</td>
             <td class="score">{{ lang.FormatNumberCustom 0 $e.score }}</td>
             <td class="date">{{ $e.date }}</td>
             <td class="proof">

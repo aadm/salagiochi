@@ -2,17 +2,29 @@
   <article>
     {{ .Content }}
 
-    {{ $games := hugo.Data.scores.games }}
-    {{ $current := index $games 0 }}
-    {{ $rest := after 1 $games }}
+    {{ $active := slice }}
+    {{ $archive := slice }}
+    {{ range hugo.Data.scores.games }}
+      {{ if .active }}
+        {{ $active = $active | append . }}
+      {{ else }}
+        {{ $archive = $archive | append . }}
+      {{ end }}
+    {{ end }}
 
-    <h2>GIOCO DEL MESE</h2>
-    {{ partial "game-card.html" (dict "game" $current "current" true) }}
+    <h2>GIOCHI ATTIVI</h2>
+    {{ if gt (len $active) 0 }}
+      {{ range $active }}
+        {{ partial "game-card.html" (dict "game" . "active" true) }}
+      {{ end }}
+    {{ else }}
+      <p class="empty">Nessun gioco attivo — invia il primo punteggio!</p>
+    {{ end }}
 
-    {{ if gt (len $rest) 0 }}
+    {{ if gt (len $archive) 0 }}
       <h2>ARCHIVIO</h2>
-      {{ range $rest }}
-        {{ partial "game-card.html" (dict "game" . "current" false) }}
+      {{ range $archive }}
+        {{ partial "game-card.html" (dict "game" . "active" false) }}
       {{ end }}
     {{ end }}
   </article>
