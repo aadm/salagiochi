@@ -298,6 +298,12 @@ pre code {
   color: var(--cyan);
 }
 
+.game-name.active::after {
+  content: ' \25cf';
+  color: var(--green);
+  animation: blink 1.4s steps(2, start) infinite;
+}
+
 .game-meta {
   color: var(--dim);
   font-size: 15px;
