@@ -11,9 +11,9 @@ games:
     date: '2026-08-22'
     proof: proof/pooyan-strmnk-2026-08-22.jpg
   - player: anal
-    score: 121200
-    date: '2026-08-21'
-    proof: proof/pooyan-anal-2026-08-21.jpg
+    score: 131200
+    date: '2026-09-11'
+    proof: https://github.com/aadm/salagiochi/issues/6
 - slug: moon-patrol
   name: Moon Patrol
   platform: Arcade (Williams/Irem, 1982)
